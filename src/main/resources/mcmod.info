@@ -1,0 +1,16 @@
+[
+  {
+    "modid": "ChiselOptifineBridge",
+    "name": "ChiselOptifineBridge",
+    "description": "by singlerr(https://github.com/singlerr",
+    "version": "1.2",
+    "mcversion": "1.12",
+    "url": "",
+    "updateUrl": "",
+    "authorList": ["singlerr"],
+    "credits": "singlerr",
+    "logoFile": "",
+    "screenshots": [],
+    "dependencies": []
+  }
+]
