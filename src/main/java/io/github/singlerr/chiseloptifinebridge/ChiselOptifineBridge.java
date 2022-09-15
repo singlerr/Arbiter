@@ -4,7 +4,6 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
-import net.optifine.shaders.Shaders;
 
 @Mod(
         modid = ChiselOptifineBridge.MOD_ID,
@@ -29,7 +28,8 @@ public class ChiselOptifineBridge {
      * The registry events below will have fired prior to entry to this method.
      */
     @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {}
+    public void preInit(FMLPreInitializationEvent event) {
+    }
 
     /**
      * This is the second initialization event. Register custom recipes

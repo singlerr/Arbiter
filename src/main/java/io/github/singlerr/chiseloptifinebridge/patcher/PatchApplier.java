@@ -35,7 +35,7 @@ public final class PatchApplier implements IClassTransformer {
                         InsnList newList = new InsnList();
 
                         newList.add(new VarInsnNode(Opcodes.ILOAD, 5));
-                        newList.add(new VarInsnNode(Opcodes.ALOAD,0));
+                        newList.add(new VarInsnNode(Opcodes.ALOAD, 0));
                         newList.add(new VarInsnNode(Opcodes.ALOAD, 2));
                         newList.add(new VarInsnNode(Opcodes.ALOAD, 1));
                         newList.add(new MethodInsnNode(Opcodes.INVOKESTATIC,
@@ -56,7 +56,7 @@ public final class PatchApplier implements IClassTransformer {
             }
         }
 
-        if(transformedName.equals("net.optifine.shaders.Shaders")){
+        if (transformedName.equals("net.optifine.shaders.Shaders")) {
             try {
                 ClassNode classNode = new ClassNode();
                 ClassReader classReader = new ClassReader(basicClass);
@@ -74,7 +74,7 @@ public final class PatchApplier implements IClassTransformer {
 
                         InsnList newList = new InsnList();
 
-                        newList.add(new VarInsnNode(Opcodes.ILOAD,2));
+                        newList.add(new VarInsnNode(Opcodes.ILOAD, 2));
                         newList.add(new VarInsnNode(Opcodes.ALOAD, 0));
                         newList.add(new MethodInsnNode(Opcodes.INVOKESTATIC,
                                 "io/github/singlerr/chiseloptifinebridge/core/ChiselOptifineBridgeManager",
