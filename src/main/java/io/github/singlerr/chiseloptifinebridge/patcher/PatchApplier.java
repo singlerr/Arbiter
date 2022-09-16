@@ -56,6 +56,7 @@ public final class PatchApplier implements IClassTransformer {
             }
         }
 
+        /*
         if (transformedName.equals("net.optifine.shaders.Shaders")) {
             try {
                 ClassNode classNode = new ClassNode();
@@ -93,6 +94,7 @@ public final class PatchApplier implements IClassTransformer {
                 ex.printStackTrace();
             }
         }
+         */
         return basicClass;
     }
 }

@@ -30,6 +30,7 @@ public final class ChiselOptifineBridgeManager {
         conversions.put("stained_hardened_clay", 95);
         conversions.put("concrete", 95);
         conversions.put("quartz_block", 95);
+        conversions.put("ice",79);
     }
 
     /**
