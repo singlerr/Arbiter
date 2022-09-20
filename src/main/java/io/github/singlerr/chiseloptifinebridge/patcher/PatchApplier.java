@@ -1,6 +1,7 @@
 package io.github.singlerr.chiseloptifinebridge.patcher;
 
 import net.minecraft.block.state.IBlockState;
+import net.minecraft.client.renderer.BlockModelRenderer;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.launchwrapper.IClassTransformer;
 import net.minecraft.util.math.BlockPos;
@@ -55,46 +56,6 @@ public final class PatchApplier implements IClassTransformer {
                 ex.printStackTrace();
             }
         }
-
-        /*
-        if (transformedName.equals("net.optifine.shaders.Shaders")) {
-            try {
-                ClassNode classNode = new ClassNode();
-                ClassReader classReader = new ClassReader(basicClass);
-                classReader.accept(classNode, 0);
-                String targetFunc = "setEntityId";
-                String targetDesc = "(Lnet/minecraft/entity/Entity;)V";
-                for (MethodNode methodNode : classNode.methods) {
-                    if (methodNode.name.equals(targetFunc) && methodNode.desc.equals(targetDesc)) {
-                        InsnList list = methodNode.instructions;
-                        AbstractInsnNode targetPos = list.getFirst();
-                        while (!(targetPos.getOpcode() == Opcodes.INVOKESTATIC && ((MethodInsnNode) targetPos).name.equals("getEntityAliasId") && ((MethodInsnNode) targetPos).desc.equals("(I)I"))) {
-                            targetPos = targetPos.getNext();
-                        }
-                        targetPos = targetPos.getNext();
-
-                        InsnList newList = new InsnList();
-
-                        newList.add(new VarInsnNode(Opcodes.ILOAD, 2));
-                        newList.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                        newList.add(new MethodInsnNode(Opcodes.INVOKESTATIC,
-                                "io/github/singlerr/chiseloptifinebridge/core/ChiselOptifineBridgeManager",
-                                "mapEntityId",
-                                "(ILnet/minecraft/entity/Entity;)I",
-                                false));
-                        newList.add(new VarInsnNode(Opcodes.ISTORE, 2));
-                        list.insert(targetPos, newList);
-                        ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_MAXS | ClassWriter.COMPUTE_FRAMES);
-                        classNode.accept(writer);
-                        System.out.println("Successfully patched " + targetFunc);
-                        return writer.toByteArray();
-                    }
-                }
-            } catch (Exception ex) {
-                ex.printStackTrace();
-            }
-        }
-         */
         return basicClass;
     }
 }

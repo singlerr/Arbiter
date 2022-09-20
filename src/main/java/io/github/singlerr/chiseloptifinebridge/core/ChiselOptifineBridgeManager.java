@@ -2,14 +2,18 @@ package io.github.singlerr.chiseloptifinebridge.core;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+import mod.chiselsandbits.api.StateCount;
 import mod.chiselsandbits.chiseledblock.BlockChiseled;
 import mod.chiselsandbits.chiseledblock.TileEntityBlockChiseled;
 import mod.chiselsandbits.chiseledblock.serialization.StringStates;
 import mod.chiselsandbits.helpers.ExceptionNoTileEntity;
+import mod.chiselsandbits.render.chiseledblock.ChiselsAndBitsBakedQuad;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
+import net.minecraft.client.renderer.block.model.BakedQuad;
 import net.minecraft.entity.Entity;
+import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
@@ -27,10 +31,7 @@ public final class ChiselOptifineBridgeManager {
         conversions.put("glowstone", 89);
         conversions.put("sea_lantern", 169);
         conversions.put("stained_glass", 95);
-        conversions.put("stained_hardened_clay", 95);
-        conversions.put("concrete", 95);
-        conversions.put("quartz_block", 95);
-        conversions.put("ice",79);
+        conversions.put("ice", 79);
     }
 
     /**
@@ -49,10 +50,58 @@ public final class ChiselOptifineBridgeManager {
         try {
             TileEntityBlockChiseled entity = BlockChiseled.getTileEntity(world, pos);
             String nbtData = StringStates.getNameFromStateID(entity.getBitAccess().getVoxelStats().mostCommonState);
-            return parseBlockId(parseBlockName(nbtData), originalId);
+            if (parseBlockId(parseBlockName(nbtData), originalId) == 169)
+                return 169;
+            for (StateCount stateCount : entity.getBitAccess().getStateCounts()) {
+                nbtData = StringStates.getNameFromStateID(stateCount.stateId);
+                String blockName = parseBlockName(nbtData);
+                if (conversions.containsKey(blockName)) {
+                    int blockId = parseBlockId(blockName, originalId);
+                    if (blockId == 169)
+                        continue;
+                    return blockId;
+                }
+
+            }
+            return originalId;
         } catch (ExceptionNoTileEntity ignored) {
             return originalId;
         }
+    }
+
+    public static void pushQuads(BakedQuad quad, BufferBuilder bufferBuilder) {
+        if (quad instanceof ChiselsAndBitsBakedQuad) {
+            ChiselsAndBitsBakedQuad bakedQuad = (ChiselsAndBitsBakedQuad) quad;
+            if (bakedQuad.getSprite().getIconName().equals("minecraft:blocks/sea_lantern")) {
+                int renderType = EnumBlockRenderType.MODEL.ordinal();
+                int blockId = 95;
+                int metaData = 0;
+                int dataLo = ((renderType & '\uffff') << 16) + (blockId & '\uffff');
+                int dataHi = metaData & '\uffff';
+                bufferBuilder.sVertexBuilder.pushEntity(((long) dataHi << 32) + (long) dataLo);
+            }
+        }
+    }
+
+    public static void pushEntity(IBlockState stateIn, BlockPos posIn, IBlockAccess worldIn, BufferBuilder buffer) {
+        if (!(stateIn.getBlock() instanceof BlockChiseled)) {
+            SVertexBuilder.pushEntity(stateIn, posIn, worldIn, buffer);
+            return;
+        }
+        try {
+            TileEntityBlockChiseled tileEntity = BlockChiseled.getTileEntity(worldIn, posIn);
+            tileEntity.getBitAccess().visitBits((i, i1, i2, bit) -> {
+                if (bit != null) {
+                    System.out.println("PP");
+                    SVertexBuilder.pushEntity(bit.getState(), posIn.add(i, i1, i2), worldIn, buffer);
+                }
+                return bit;
+            });
+
+        } catch (ExceptionNoTileEntity ignored) {
+            SVertexBuilder.pushEntity(stateIn, posIn, worldIn, buffer);
+        }
+
     }
 
     public static int mapEntityId(int originalId, Entity entity) {
