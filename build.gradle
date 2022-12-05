@@ -5,7 +5,7 @@ plugins {
 
 
 group = 'io.github.singlerr'
-version = '1.4'
+version = '1.5'
 
 java {
     archivesBaseName = 'ChiselOptifineBridge'

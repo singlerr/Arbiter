@@ -1,9 +1,24 @@
 package io.github.singlerr.chiseloptifinebridge;
 
+import mod.chiselsandbits.chiseledblock.BlockChiseled;
+import mod.chiselsandbits.helpers.ModUtil;
+import mod.chiselsandbits.render.helpers.ModelUtil;
+import net.minecraft.client.Minecraft;
+import net.minecraft.client.network.NetHandlerPlayClient;
+import net.minecraft.client.renderer.*;
+import net.minecraft.client.renderer.chunk.*;
+import net.minecraft.entity.Entity;
+import net.minecraft.util.math.ChunkPos;
+import net.minecraft.world.chunk.Chunk;
+import net.minecraft.world.chunk.storage.IChunkLoader;
+import net.minecraft.world.gen.IChunkGenerator;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPostInitializationEvent;
 import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
+import net.optifine.shaders.SVertexBuilder;
+import net.optifine.shaders.Shaders;
+import net.optifine.shaders.ShadersRender;
 
 @Mod(
         modid = ChiselOptifineBridge.MOD_ID,
@@ -23,28 +38,8 @@ public class ChiselOptifineBridge {
     @Mod.Instance(MOD_ID)
     public static ChiselOptifineBridge INSTANCE;
 
-    /**
-     * This is the first initialization event. Register tile entities here.
-     * The registry events below will have fired prior to entry to this method.
-     */
-    @Mod.EventHandler
-    public void preInit(FMLPreInitializationEvent event) {
-    }
 
-    /**
-     * This is the second initialization event. Register custom recipes
-     */
-    @Mod.EventHandler
-    public void init(FMLInitializationEvent event) {
-    }
 
-    /**
-     * This is the final initialization event. Register actions from other mods here
-     */
-    @Mod.EventHandler
-    public void postInit(FMLPostInitializationEvent event) {
-
-    }
 
 
 }

@@ -31,6 +31,9 @@ public final class ChiselOptifineBridgeManager {
         conversions.put("glowstone", 89);
         conversions.put("sea_lantern", 169);
         conversions.put("stained_glass", 95);
+        conversions.put("redstone_block",152);
+        conversions.put("lapis_block",22);
+        conversions.put("emerald_block",133);
         conversions.put("ice", 79);
     }
 

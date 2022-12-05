@@ -9,7 +9,9 @@ import java.util.Map;
 @IFMLLoadingPlugin.SortingIndex(Integer.MAX_VALUE) // after deobfuscation
 public class FMLCorePlugin implements IFMLLoadingPlugin {
 
-
+    public FMLCorePlugin(){
+        System.out.println("SEX");
+    }
     @Override
     public String[] getASMTransformerClass() {
         return new String[]{PatchApplier.class.getName()};
