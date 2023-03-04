@@ -24,7 +24,7 @@ import net.optifine.shaders.ShadersRender;
         modid = ChiselOptifineBridge.MOD_ID,
         name = ChiselOptifineBridge.MOD_NAME,
         version = ChiselOptifineBridge.VERSION,
-        dependencies = "required-after:chiselsandbits"
+        dependencies = "required-after:chiselsandbits;required-after:flatcoloredblocks"
 )
 public class ChiselOptifineBridge {
 

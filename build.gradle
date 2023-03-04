@@ -101,10 +101,11 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
     compileOnly fg.deobf('mods.chiselsandbits:chiselsandbits:14.29')
+    compileOnly fg.deobf('mods.flatcoloredblocks:flatcoloredblocks:mc1.12-6.8')
 
     compileOnly files("libs/OptiFine_1.12.2_HD_U_G5-dev.jar")
 
-    annotationProcessor 'org.spongepowered:mixin:0.8.3-SNAPSHOT'
+    annotationProcessor 'org.spongepowered:mixin:0.8.3-SNAPSHOT:processor'
     embed('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'

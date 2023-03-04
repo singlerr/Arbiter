@@ -1,6 +1,11 @@
 package io.github.singlerr.chiseloptifinebridge.mixin;
 
 import io.github.singlerr.chiseloptifinebridge.core.ChiselOptifineBridgeManager;
+import mod.chiselsandbits.chiseledblock.BlockChiseled;
+import mod.flatcoloredblocks.ModUtil;
+import mod.flatcoloredblocks.block.BlockFlatColored;
+import mod.flatcoloredblocks.block.EnumFlatBlockType;
+import mod.flatcoloredblocks.client.ClientSide;
 import net.minecraft.block.Block;
 import net.minecraft.block.state.BlockStateBase;
 import net.minecraft.block.state.IBlockState;
@@ -36,7 +41,21 @@ public final class MixinBlockSVertexBuilder {
 
         int blockAliasId = BlockAliases.getBlockAliasId(blockId, metadata);
         if (blockAliasId >= 0) {
-            blockId = ChiselOptifineBridgeManager.mapBlockId(blockId, blockState, blockAccess, blockPos);
+
+            if(blockState.getBlock() instanceof BlockFlatColored){
+                BlockFlatColored cb = (BlockFlatColored) blockState.getBlock();
+                if(cb.getType() == EnumFlatBlockType.GLOWING){
+                    blockId = 169;
+
+                }else if(cb.getType() == EnumFlatBlockType.TRANSPARENT){
+                    blockId = 95;
+                }
+
+
+            }else if(blockState.getBlock() instanceof BlockChiseled){
+                blockId = ChiselOptifineBridgeManager.mapBlockId(blockId, blockState, blockAccess, blockPos);
+
+            }
         }
 
         int renderType = block.getRenderType(blockState).ordinal();

@@ -10,7 +10,7 @@ import java.util.Map;
 public class FMLCorePlugin implements IFMLLoadingPlugin {
 
     public FMLCorePlugin(){
-        System.out.println("SEX");
+
     }
     @Override
     public String[] getASMTransformerClass() {
