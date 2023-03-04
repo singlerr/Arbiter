@@ -98,7 +98,7 @@ public final class ChiselOptifineBridgeManager {
             TileEntityBlockChiseled tileEntity = BlockChiseled.getTileEntity(worldIn, posIn);
             tileEntity.getBitAccess().visitBits((i, i1, i2, bit) -> {
                 if (bit != null) {
-                    System.out.println("PP");
+
                     SVertexBuilder.pushEntity(bit.getState(), posIn.add(i, i1, i2), worldIn, buffer);
                 }
                 return bit;

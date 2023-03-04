@@ -16,7 +16,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 
 group = 'io.github.singlerr'
-version = '1.6'
+version = '1.7'
 
 java {
     archivesBaseName = 'ChiselOptifineBridge'
@@ -187,7 +187,7 @@ githubRelease {
     targetCommitish "master"
     releaseName "v${version.toString()}"
     generateReleaseNotes true
-    body "Migrating from accessing directly to source to mixin for better manipulating minecraft source"
+    body "Added FlatColoredBlocks mod compatibility"
     releaseAssets jar.destinationDir.listFiles()
     overwrite true
     allowUploadToExisting.set true
