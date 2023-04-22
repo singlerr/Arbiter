@@ -9,9 +9,10 @@ import java.util.Map;
 @IFMLLoadingPlugin.SortingIndex(Integer.MAX_VALUE) // after deobfuscation
 public class FMLCorePlugin implements IFMLLoadingPlugin {
 
-    public FMLCorePlugin(){
+    public FMLCorePlugin() {
 
     }
+
     @Override
     public String[] getASMTransformerClass() {
         return new String[]{PatchApplier.class.getName()};

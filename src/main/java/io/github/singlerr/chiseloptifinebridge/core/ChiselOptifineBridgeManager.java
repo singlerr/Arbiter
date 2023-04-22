@@ -7,15 +7,11 @@ import mod.chiselsandbits.chiseledblock.BlockChiseled;
 import mod.chiselsandbits.chiseledblock.TileEntityBlockChiseled;
 import mod.chiselsandbits.chiseledblock.serialization.StringStates;
 import mod.chiselsandbits.helpers.ExceptionNoTileEntity;
-import mod.chiselsandbits.render.chiseledblock.ChiselsAndBitsBakedQuad;
+import mod.flatcoloredblocks.block.BlockFlatColored;
+import mod.flatcoloredblocks.block.EnumFlatBlockType;
 import net.minecraft.block.state.IBlockState;
-import net.minecraft.client.Minecraft;
 import net.minecraft.client.renderer.BufferBuilder;
-import net.minecraft.client.renderer.block.model.BakedQuad;
-import net.minecraft.entity.Entity;
-import net.minecraft.util.EnumBlockRenderType;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.util.text.TextComponentString;
 import net.minecraft.world.IBlockAccess;
 import net.optifine.shaders.BlockAliases;
 import net.optifine.shaders.SVertexBuilder;
@@ -31,9 +27,9 @@ public final class ChiselOptifineBridgeManager {
         conversions.put("glowstone", 89);
         conversions.put("sea_lantern", 169);
         conversions.put("stained_glass", 95);
-        conversions.put("redstone_block",152);
-        conversions.put("lapis_block",22);
-        conversions.put("emerald_block",133);
+        conversions.put("redstone_block", 152);
+        conversions.put("lapis_block", 22);
+        conversions.put("emerald_block", 133);
         conversions.put("ice", 79);
     }
 
@@ -48,6 +44,14 @@ public final class ChiselOptifineBridgeManager {
      */
     public static int mapBlockId(int originalId, IBlockState blockState, IBlockAccess world, BlockPos pos) {
         //TODO(ModUtil.getTileEntitySafely(world, pos) instanceof TileEntityBlockChiseled)) if not working
+        if (blockState.getBlock() instanceof BlockFlatColored) {
+            BlockFlatColored cb = (BlockFlatColored) blockState.getBlock();
+            if (cb.getType() == EnumFlatBlockType.GLOWING) {
+                return 169;
+            } else if (cb.getType() == EnumFlatBlockType.TRANSPARENT) {
+                return 95;
+            }
+        }
         if (!(blockState.getBlock() instanceof BlockChiseled))
             return originalId;
         try {
@@ -59,7 +63,7 @@ public final class ChiselOptifineBridgeManager {
             for (StateCount stateCount : entity.getBitAccess().getStateCounts()) {
                 nbtData = StringStates.getNameFromStateID(stateCount.stateId);
                 String blockName = parseBlockName(nbtData);
-                if(blockName.contains("glowing") && blockName.contains("flatcolored"))
+                if (blockName.contains("glowing") && blockName.contains("flatcolored"))
                     return 169;
                 if (conversions.containsKey(blockName)) {
                     int blockId = parseBlockId(blockName, originalId);
@@ -75,48 +79,6 @@ public final class ChiselOptifineBridgeManager {
         }
     }
 
-    public static void pushQuads(BakedQuad quad, BufferBuilder bufferBuilder) {
-        if (quad instanceof ChiselsAndBitsBakedQuad) {
-            ChiselsAndBitsBakedQuad bakedQuad = (ChiselsAndBitsBakedQuad) quad;
-            if (bakedQuad.getSprite().getIconName().equals("minecraft:blocks/sea_lantern")) {
-                int renderType = EnumBlockRenderType.MODEL.ordinal();
-                int blockId = 95;
-                int metaData = 0;
-                int dataLo = ((renderType & '\uffff') << 16) + (blockId & '\uffff');
-                int dataHi = metaData & '\uffff';
-                bufferBuilder.sVertexBuilder.pushEntity(((long) dataHi << 32) + (long) dataLo);
-            }
-        }
-    }
-
-    public static void pushEntity(IBlockState stateIn, BlockPos posIn, IBlockAccess worldIn, BufferBuilder buffer) {
-        if (!(stateIn.getBlock() instanceof BlockChiseled)) {
-            SVertexBuilder.pushEntity(stateIn, posIn, worldIn, buffer);
-            return;
-        }
-        try {
-            TileEntityBlockChiseled tileEntity = BlockChiseled.getTileEntity(worldIn, posIn);
-            tileEntity.getBitAccess().visitBits((i, i1, i2, bit) -> {
-                if (bit != null) {
-
-                    SVertexBuilder.pushEntity(bit.getState(), posIn.add(i, i1, i2), worldIn, buffer);
-                }
-                return bit;
-            });
-
-        } catch (ExceptionNoTileEntity ignored) {
-            SVertexBuilder.pushEntity(stateIn, posIn, worldIn, buffer);
-        }
-
-    }
-
-    public static int mapEntityId(int originalId, Entity entity) {
-        if (entity.getClass().getName().equals("jp.ngt.rtm.entity.train.EntityTrainElectricCar")) {
-            if (Minecraft.getMinecraft().player != null)
-                Minecraft.getMinecraft().player.sendMessage(new TextComponentString(entity.getClass().getName()));
-        }
-        return originalId;
-    }
 
     private static String parseBlockName(String sourceName) {
         int blockInfoStart = sourceName.indexOf(PREFIX) + PREFIX.length();

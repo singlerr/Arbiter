@@ -7,7 +7,9 @@
     "mcversion": "1.12",
     "url": "",
     "updateUrl": "",
-    "authorList": ["singlerr"],
+    "authorList": [
+      "singlerr"
+    ],
     "credits": "singlerr",
     "logoFile": "",
     "screenshots": [],

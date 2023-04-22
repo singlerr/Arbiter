@@ -16,7 +16,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 
 group = 'io.github.singlerr'
-version = '1.7'
+version = '1.8'
 
 java {
     archivesBaseName = 'ChiselOptifineBridge'
@@ -100,10 +100,11 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
+
+    compileOnly files("libs/OptiFine_1.12.2_HD_U_G5-dev.jar")
     compileOnly fg.deobf('mods.chiselsandbits:chiselsandbits:14.29')
     compileOnly fg.deobf('mods.flatcoloredblocks:flatcoloredblocks:mc1.12-6.8')
 
-    compileOnly files("libs/OptiFine_1.12.2_HD_U_G5-dev.jar")
 
     annotationProcessor 'org.spongepowered:mixin:0.8.3-SNAPSHOT:processor'
     embed('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
@@ -135,10 +136,9 @@ jar {
                 "ForceLoadAsMod": "true",
                 "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
                 "TweakOrder": "0",
-                /*
+
                 "FMLCorePluginContainsFMLMod": "*",
                 "FMLCorePlugin"              : "io.github.singlerr.chiseloptifinebridge.patcher.FMLCorePlugin",
-                         */
                 "Author"                  : "Singlerr"
         ])
     }
