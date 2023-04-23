@@ -1,5 +1,6 @@
 package io.github.singlerr.chiseloptifinebridge;
 
+import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.event.FMLInitializationEvent;
 
@@ -24,7 +25,7 @@ public class ChiselOptifineBridge {
 
     @Mod.EventHandler
     public void onInit(FMLInitializationEvent event) {
-
+        MinecraftForge.EVENT_BUS.register(new ClientEventHandler());
         //   MinecraftForge.EVENT_BUS.register(this);
     }
 /*
