@@ -1,4 +1,4 @@
 # ChiselOptifineBridge
 
-How does it work?
+1. How does it work?
 -----------------
