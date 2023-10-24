@@ -12,7 +12,7 @@ plugins {
     id "com.github.breadmoirai.github-release" version "2.4.1"
 }
 
-//apply plugin: 'org.spongepowered.mixin'
+apply plugin: 'org.spongepowered.mixin'
 
 
 group = 'io.github.singlerr'
@@ -34,7 +34,7 @@ minecraft {
 
             property 'forge.logging.console.level', 'debug'
 
-         //   arg '-torg.spongepowered.asm.launch.MixinTweaker'
+            arg '-torg.spongepowered.asm.launch.MixinTweaker'
             mods {
                 chiseloptifinebridge {
                     source sourceSets.main
@@ -101,11 +101,10 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
 
-    compileOnly files("libs/OptiFine_1.12.2_HD_U_G5-dev.jar")
-    compileOnly fg.deobf('mods.chiselsandbits:chiselsandbits:14.29')
+    implementation fg.deobf("net.optifine:optifine:1.12.2")
+    compileOnly fg.deobf('mods.chiselsandbits:chiselsandbits:14.33')
     compileOnly fg.deobf('mods.flatcoloredblocks:flatcoloredblocks:mc1.12-6.8')
 
-/*
     annotationProcessor 'org.spongepowered:mixin:0.8.3-SNAPSHOT:processor'
     embed('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
         exclude module: 'guava'
@@ -113,14 +112,14 @@ dependencies {
         exclude module: 'gson'
     }
 
- */
+
 }
-/*
+
 mixin {
-    add sourceSets.main, 'mixins.cob.json'
-    config 'mixins.config.cob.json'
+    add sourceSets.main, 'refmap.cob.json'
+    config 'config.cob.json'
 }
-*/
+
 jar {
     from {
         configurations.embed.collect { it.isDirectory() ? it : zipTree(it) }

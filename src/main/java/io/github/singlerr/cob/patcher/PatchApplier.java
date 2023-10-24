@@ -1,4 +1,4 @@
-package io.github.singlerr.chiseloptifinebridge.patcher;
+package io.github.singlerr.cob.patcher;
 
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.BufferBuilder;
@@ -14,7 +14,7 @@ public final class PatchApplier implements IClassTransformer {
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
         /**
-         * Patch {@link net.optifine.shaders.SVertexBuilder#pushEntity(IBlockState, BlockPos, IBlockAccess, BufferBuilder)} to {@link io.github.singlerr.chiseloptifinebridge.core.ChiselOptifineBridgeManager#mapBlockId(int, IBlockState, IBlockAccess, BlockPos)}
+         * Patch {@link net.optifine.shaders.SVertexBuilder#pushEntity(IBlockState, BlockPos, IBlockAccess, BufferBuilder)} to {@link io.github.singlerr.cob.core.ChiselOptifineBridgeManager#mapBlockId(int, IBlockState, IBlockAccess, BlockPos)}
          */
         if (transformedName.equals("net.optifine.shaders.SVertexBuilder")) {
             try {
@@ -39,7 +39,7 @@ public final class PatchApplier implements IClassTransformer {
                         newList.add(new VarInsnNode(Opcodes.ALOAD, 2));
                         newList.add(new VarInsnNode(Opcodes.ALOAD, 1));
                         newList.add(new MethodInsnNode(Opcodes.INVOKESTATIC,
-                                "io/github/singlerr/chiseloptifinebridge/core/ChiselOptifineBridgeManager",
+                                "io/github/singlerr/cob/core/ChiselOptifineBridgeManager",
                                 "mapBlockId",
                                 "(ILnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)I",
                                 false));

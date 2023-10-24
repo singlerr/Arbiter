@@ -1,4 +1,4 @@
-package io.github.singlerr.chiseloptifinebridge;
+package io.github.singlerr.cob;
 
 import net.minecraftforge.common.MinecraftForge;
 import net.minecraftforge.fml.common.Mod;

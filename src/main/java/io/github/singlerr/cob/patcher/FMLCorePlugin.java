@@ -1,6 +1,5 @@
-package io.github.singlerr.chiseloptifinebridge.patcher;
+package io.github.singlerr.cob.patcher;
 
-import net.minecraft.client.Minecraft;
 import net.minecraftforge.fml.relauncher.IFMLLoadingPlugin;
 
 import javax.annotation.Nullable;

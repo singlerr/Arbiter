@@ -1,4 +1,4 @@
-package io.github.singlerr.chiseloptifinebridge;
+package io.github.singlerr.cob;
 
 import net.minecraft.client.Minecraft;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;

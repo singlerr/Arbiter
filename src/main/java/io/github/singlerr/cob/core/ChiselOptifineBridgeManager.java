@@ -1,4 +1,4 @@
-package io.github.singlerr.chiseloptifinebridge.core;
+package io.github.singlerr.cob.core;
 
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
