@@ -16,10 +16,12 @@ apply plugin: 'org.spongepowered.mixin'
 
 
 group = 'io.github.singlerr'
-version = '1.8'
+version = '2.0.0'
+
+System.setProperty("MC_VERSION","1.12.2")
 
 java {
-    archivesBaseName = 'ChiselOptifineBridge'
+    archivesBaseName = 'Arbiter'
     toolchain.languageVersion = JavaLanguageVersion.of(8)
 }
 
@@ -36,7 +38,7 @@ minecraft {
 
             arg '-torg.spongepowered.asm.launch.MixinTweaker'
             mods {
-                chiseloptifinebridge {
+                arbiter {
                     source sourceSets.main
                 }
             }
@@ -52,7 +54,7 @@ minecraft {
             //arg '-torg.spongepowered.asm.launch.MixinTweaker'
 
             mods {
-                chiseloptifinebridge {
+                arbiter {
                     source sourceSets.main
                 }
             }
@@ -100,8 +102,7 @@ dependencies {
     compileOnly 'org.projectlombok:lombok:1.18.24'
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
-
-    implementation fg.deobf("net.optifine:optifine:1.12.2")
+    compileOnly fg.deobf("net.optifine:optifine:1.12.2")
     compileOnly fg.deobf('mods.chiselsandbits:chiselsandbits:14.33')
     compileOnly fg.deobf('mods.flatcoloredblocks:flatcoloredblocks:mc1.12-6.8')
 
@@ -117,7 +118,7 @@ dependencies {
 
 mixin {
     add sourceSets.main, 'refmap.cob.json'
-    config 'config.cob.json'
+    config 'cob.mixins.json'
 }
 
 jar {
@@ -134,9 +135,9 @@ jar {
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "FMLCorePluginContainsFMLMod": "true",
-                "FMLCorePlugin"              : "io.github.singlerr.chiseloptifinebridge.patcher.FMLCorePlugin",
-                "Author"                  : "Singlerr"
+                "Author"                  : "Singlerr",
+                "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
+                "TweakOrder": "0"
         ])
     }
 }
@@ -168,9 +169,6 @@ tasks.register("copyToMod") {
     }
 }
 
-tasks.named("build") {
-    finalizedBy("copyToMod")
-}
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation

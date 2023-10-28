@@ -1,9 +1,9 @@
 [
   {
-    "modid": "ChiselOptifineBridge",
-    "name": "ChiselOptifineBridge",
-    "description": "by singlerr(https://github.com/singlerr",
-    "version": "1.2",
+    "modid": "arbiter",
+    "name": "Arbiter",
+    "description": "by singlerr(https://github.com/singlerr)",
+    "version": "2.0.0",
     "mcversion": "1.12",
     "url": "",
     "updateUrl": "",

@@ -38,6 +38,7 @@ public class ChiselsMixinPlugin implements IMixinConfigPlugin {
     public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
         String targetFunc = "pushEntity";
         String targetDesc = "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/client/renderer/BufferBuilder;)V";
+
         for (MethodNode methodNode : targetClass.methods) {
             if (methodNode.name.equals(targetFunc) && methodNode.desc.equals(targetDesc)) {
                 InsnList list = methodNode.instructions;
@@ -54,7 +55,7 @@ public class ChiselsMixinPlugin implements IMixinConfigPlugin {
                 newList.add(new VarInsnNode(Opcodes.ALOAD, 2));
                 newList.add(new VarInsnNode(Opcodes.ALOAD, 1));
                 newList.add(new MethodInsnNode(Opcodes.INVOKESTATIC,
-                        "io/github/singlerr/cob/core/ChiselOptifineBridgeManager",
+                        "io/github/singlerr/cob/core/ChiselsAndBitsHandler",
                         "mapBlockId",
                         "(ILnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)I",
                         false));

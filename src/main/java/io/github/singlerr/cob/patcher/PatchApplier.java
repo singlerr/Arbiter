@@ -1,5 +1,6 @@
 package io.github.singlerr.cob.patcher;
 
+import io.github.singlerr.cob.core.ChiselsAndBitsHandler;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.BufferBuilder;
 import net.minecraft.launchwrapper.IClassTransformer;
@@ -14,7 +15,7 @@ public final class PatchApplier implements IClassTransformer {
     @Override
     public byte[] transform(String name, String transformedName, byte[] basicClass) {
         /**
-         * Patch {@link net.optifine.shaders.SVertexBuilder#pushEntity(IBlockState, BlockPos, IBlockAccess, BufferBuilder)} to {@link io.github.singlerr.cob.core.ChiselOptifineBridgeManager#mapBlockId(int, IBlockState, IBlockAccess, BlockPos)}
+         * Patch {@link net.optifine.shaders.SVertexBuilder#pushEntity(IBlockState, BlockPos, IBlockAccess, BufferBuilder)} to {@link ChiselsAndBitsHandler#mapBlockId(int, IBlockState, IBlockAccess, BlockPos)}
          */
         if (transformedName.equals("net.optifine.shaders.SVertexBuilder")) {
             try {

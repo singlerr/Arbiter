@@ -19,7 +19,7 @@ import net.optifine.shaders.SVertexBuilder;
 import java.util.HashMap;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public final class ChiselOptifineBridgeManager {
+public final class ChiselsAndBitsHandler {
     public static final HashMap<String, Integer> conversions = new HashMap<>();
     private static final String PREFIX = "minecraft%3A";
 
@@ -59,6 +59,7 @@ public final class ChiselOptifineBridgeManager {
             String nbtData = StringStates.getNameFromStateID(entity.getBitAccess().getVoxelStats().mostCommonState);
             if (parseBlockId(parseBlockName(nbtData), originalId) == 169)
                 return 169;
+
 
             for (StateCount stateCount : entity.getBitAccess().getStateCounts()) {
                 nbtData = StringStates.getNameFromStateID(stateCount.stateId);
