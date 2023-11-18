@@ -16,7 +16,7 @@ apply plugin: 'org.spongepowered.mixin'
 
 
 group = 'io.github.singlerr'
-version = '2.0.0'
+version = '2.0.5'
 
 System.setProperty("MC_VERSION","1.12.2")
 
@@ -103,7 +103,7 @@ dependencies {
     annotationProcessor 'org.projectlombok:lombok:1.18.24'
 
     compileOnly fg.deobf("net.optifine:optifine:1.12.2")
-    compileOnly fg.deobf('mods.chiselsandbits:chiselsandbits:14.33')
+    compileOnly fg.deobf('mods.chiselsandbits:chiselsandbits:14.33-singlerr')
     compileOnly fg.deobf('mods.flatcoloredblocks:flatcoloredblocks:mc1.12-6.8')
 
     annotationProcessor 'org.spongepowered:mixin:0.8.3-SNAPSHOT:processor'

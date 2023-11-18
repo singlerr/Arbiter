@@ -4,11 +4,12 @@
   "package": "io.github.singlerr.cob.mixin",
   "compatibilityLevel": "JAVA_8",
   "refmap": "refmap.cob.json",
-  "plugin": "io.github.singlerr.cob.patcher.ChiselsMixinPlugin",
+  "plugin": "io.github.singlerr.cob.patcher.ArbiterMixinPlugin",
   "mixins": [
   ],
   "client": [
-    "optifine.MixinSVertexBuilder"
+    "optifine.MixinSVertexBuilder",
+    "optifine.AccessorBufferBuilder"
   ],
   "injectors": {
     "defaultRequire": 1

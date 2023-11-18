@@ -1,6 +1,6 @@
 package io.github.singlerr.cob.mixin;
 
-import io.github.singlerr.cob.core.CustomUniforms;
+import io.github.singlerr.cob.core.optifine.CustomUniforms;
 import mod.flatcoloredblocks.block.BlockFlatColored;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.BlockModelRenderer;

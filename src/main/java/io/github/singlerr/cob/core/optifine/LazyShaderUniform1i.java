@@ -1,4 +1,4 @@
-package io.github.singlerr.cob.core;
+package io.github.singlerr.cob.core.optifine;
 
 import net.optifine.shaders.uniform.ShaderUniform1i;
 

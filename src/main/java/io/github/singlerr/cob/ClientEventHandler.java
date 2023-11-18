@@ -9,7 +9,7 @@ import java.awt.*;
 public class ClientEventHandler {
     @SubscribeEvent
     public void onRender(RenderGameOverlayEvent.Post event) {
-        String text = "§a" + ChiselOptifineBridge.MOD_NAME + " v" + ChiselOptifineBridge.VERSION + " §fby singlerr";
+        String text = "§a" + Arbiter.MOD_NAME + " v" + Arbiter.VERSION + " §fby singlerr";
         Minecraft.getMinecraft().fontRenderer.drawStringWithShadow(text, event.getResolution().getScaledWidth() - Minecraft.getMinecraft().fontRenderer.getStringWidth(text), 2, Color.WHITE.getRGB());
     }
 }

@@ -1,4 +1,4 @@
-package io.github.singlerr.cob.core;
+package io.github.singlerr.cob.core.optifine;
 
 public final class CustomUniforms {
 

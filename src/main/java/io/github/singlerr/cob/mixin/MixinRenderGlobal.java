@@ -1,8 +1,6 @@
 package io.github.singlerr.cob.mixin;
 
-import io.github.singlerr.cob.core.CustomUniforms;
 import io.github.singlerr.cob.core.FlatColoredBlocksHandler;
-import mod.flatcoloredblocks.block.BlockFlatColored;
 import net.minecraft.block.state.IBlockState;
 import net.minecraft.client.renderer.DestroyBlockProgress;
 import net.minecraft.client.renderer.RenderGlobal;
@@ -12,7 +10,6 @@ import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.math.BlockPos;
 import net.optifine.shaders.Shaders;
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.Unique;
 import org.spongepowered.asm.mixin.injection.At;
 import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfo;
