@@ -130,12 +130,12 @@ jar {
 
     manifest {
         attributes([
-                "Specification-Title"     : "chiseloptifinebridge",
+                "Specification-Title"     : "arbiter",
                 "Specification-Version"   : "1",
                 "Implementation-Title"    : project.name,
                 "Implementation-Version"  : project.jar.archiveVersion,
                 "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "Author"                  : "Singlerr",
+                "Author"                  : "sinlerr",
                 "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
                 "TweakOrder": "0"
         ])
