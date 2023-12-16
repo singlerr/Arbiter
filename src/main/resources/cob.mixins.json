@@ -8,7 +8,7 @@
   "mixins": [
   ],
   "client": [
-    "optifine.MixinSVertexBuilder",
+    "renderer.MixinBlockModelRenderer",
     "optifine.AccessorBufferBuilder"
   ],
   "injectors": {

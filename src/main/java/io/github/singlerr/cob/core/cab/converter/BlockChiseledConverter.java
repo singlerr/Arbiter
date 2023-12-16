@@ -1,32 +1,20 @@
 package io.github.singlerr.cob.core.cab.converter;
 
 import io.github.singlerr.cob.core.ChiselsAndBitsHandler;
-import io.github.singlerr.cob.core.FlatColoredBlocksHandler;
 import io.github.singlerr.cob.core.cab.Converter;
-import mod.chiselsandbits.api.StateCount;
 import mod.chiselsandbits.chiseledblock.BlockChiseled;
-import mod.chiselsandbits.chiseledblock.TileEntityBlockChiseled;
-import mod.chiselsandbits.helpers.ExceptionNoTileEntity;
-import mod.chiselsandbits.helpers.ModUtil;
-import mod.flatcoloredblocks.block.BlockFlatColored;
-import mod.flatcoloredblocks.block.EnumFlatBlockType;
-import net.minecraft.block.BlockGlowstone;
-import net.minecraft.block.BlockIce;
-import net.minecraft.block.BlockSeaLantern;
-import net.minecraft.block.BlockStainedGlass;
-import net.minecraft.block.state.IBlockState;
-import net.minecraft.init.Blocks;
+import net.minecraft.block.BlockState;
 import net.minecraft.util.math.BlockPos;
-import net.minecraft.world.IBlockAccess;
+import net.minecraft.world.IBlockDisplayReader;
 
 public final class BlockChiseledConverter implements Converter {
     @Override
-    public boolean accept(IBlockState blockState, IBlockAccess world, BlockPos pos) {
+    public boolean accept(BlockState blockState, IBlockDisplayReader world, BlockPos pos) {
         return blockState.getBlock() instanceof BlockChiseled;
     }
 
     @Override
-    public int get(int id, IBlockState blockState, IBlockAccess world, BlockPos pos) {
+    public int get(int id, BlockState blockState, IBlockDisplayReader world, BlockPos pos) {
         /*
         try {
             TileEntityBlockChiseled entity = BlockChiseled.getTileEntity(world, pos);

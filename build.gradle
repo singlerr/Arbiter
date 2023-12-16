@@ -1,5 +1,7 @@
 buildscript {
     repositories {
+        mavenCentral()
+        maven { url = 'https://maven.minecraftforge.net/'}
         maven { url = 'https://repo.spongepowered.org/maven' }
     }
     dependencies {
@@ -8,27 +10,34 @@ buildscript {
 }
 
 plugins {
-    id 'net.minecraftforge.gradle' version '5.1.+'
-    id "com.github.breadmoirai.github-release" version "2.4.1"
+    id "idea"
+    id 'net.minecraftforge.gradle' version '[6.0,6.2)'
 }
 
 apply plugin: 'org.spongepowered.mixin'
 
 
-group = 'io.github.singlerr'
-version = '2.0.5'
+group = mod_group_id
+version = mod_version
 
-System.setProperty("MC_VERSION","1.12.2")
+System.setProperty("MC_VERSION", minecraft_version)
 
 java {
-    archivesBaseName = 'Arbiter'
+    archivesBaseName = "$mod_name-$minecraft_version"
     toolchain.languageVersion = JavaLanguageVersion.of(8)
 }
-
 minecraft {
-    mappings channel: 'stable', version: '39-1.12'
+
+    mappings channel: mapping_channel, version: mapping_version
+
+    enableIdeaPrepareRuns = true
+
+    copyIdeResources = true
+
+    generateRunFolders = true
 
     runs {
+
         client {
             workingDirectory project.file('run')
 
@@ -37,37 +46,49 @@ minecraft {
             property 'forge.logging.console.level', 'debug'
 
             arg '-torg.spongepowered.asm.launch.MixinTweaker'
+
             mods {
-                arbiter {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
         }
 
-        server {
-            workingDirectory project.file('run')
+        configureEach {
 
             property 'forge.logging.markers', 'REGISTRIES'
 
+
+
             property 'forge.logging.console.level', 'debug'
 
-            //arg '-torg.spongepowered.asm.launch.MixinTweaker'
-
             mods {
-                arbiter {
+                "${mod_id}" {
                     source sourceSets.main
                 }
             }
         }
+
+
+        server {
+            args '--nogui'
+        }
+
+        data {
+            workingDirectory project.file('run-data')
+
+            args '--mod', mod_id, '--all', '--output', file('src/generated/resources/'), '--existing', file('src/main/resources/')
+        }
     }
 }
+
 
 
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 repositories {
     maven { url = 'https://repo.spongepowered.org/maven' }
-    flatDir {
+    flatDir{
         dir 'libs'
     }
 }
@@ -77,42 +98,39 @@ configurations {
     implementation.extendsFrom(embed)
 }
 
-processResources{
-    duplicatesStrategy = DuplicatesStrategy.INCLUDE
-    inputs.property "version", project.version
-    inputs.property "mcversion", '1.12.2'
+tasks.named('processResources', ProcessResources).configure {
+    var replaceProperties = [
+            minecraft_version: minecraft_version, minecraft_version_range: minecraft_version_range,
+            forge_version: forge_version, forge_version_range: forge_version_range,
+            loader_version_range: loader_version_range,
+            mod_id: mod_id, mod_name: mod_name, mod_license: mod_license, mod_version: mod_version,
+            mod_authors: mod_authors, mod_description: mod_description,
+    ]
 
-    from(sourceSets.main.resources.srcDirs) {
-        include 'mcmod.info'
+    inputs.properties replaceProperties
 
-        expand 'mod_id': 'chiseloptifinebridge', 'mod_name': 'ChiselOptifineBridge', 'version': project.version,
-                'mcversion': '1.12.2', 'mod_description': 'A simple coremod that fixes SEUS shader error with chisels and bits',
-                'mod_author': 'singlerr'
+
+    filesMatching(['META-INF/mods.toml', 'pack.mcmeta']) {
+        expand replaceProperties + [project: project]
     }
 
-    from(sourceSets.main.resources.srcDirs) {
-        exclude 'mcmod.info'
-    }
 }
+
 
 dependencies {
 
-    minecraft 'net.minecraftforge:forge:1.12.2-14.23.5.2860'
+    minecraft "net.minecraftforge:forge:${minecraft_version}-${forge_version}"
 
-    compileOnly 'org.projectlombok:lombok:1.18.24'
-    annotationProcessor 'org.projectlombok:lombok:1.18.24'
-
-    compileOnly fg.deobf("net.optifine:optifine:1.12.2")
-    compileOnly fg.deobf('mods.chiselsandbits:chiselsandbits:14.33-singlerr')
-    compileOnly fg.deobf('mods.flatcoloredblocks:flatcoloredblocks:mc1.12-6.8')
+    implementation fg.deobf("mod.flatcoloredblocks:flatcoloredblocks-revived:mc1.16.5-1.0")
+    implementation fg.deobf('com.ldtteam:chiselsandbits:0.3.6-hotfix')
+    compileOnly fg.deobf('net.optifine:optifine:1.16.5')
 
     annotationProcessor 'org.spongepowered:mixin:0.8.3-SNAPSHOT:processor'
-    embed('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
+    implementation('org.spongepowered:mixin:0.8.3-SNAPSHOT') {
         exclude module: 'guava'
         exclude module: 'commons-io'
         exclude module: 'gson'
     }
-
 
 }
 
@@ -130,60 +148,20 @@ jar {
 
     manifest {
         attributes([
-                "Specification-Title"     : "arbiter",
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : project.jar.archiveVersion,
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ"),
-                "Author"                  : "sinlerr",
-                "TweakClass": "org.spongepowered.asm.launch.MixinTweaker",
-                "TweakOrder": "0"
+                "Specification-Title": mod_id,
+                "Specification-Vendor": mod_authors,
+                "Specification-Version": "1", // We are version 1 of ourselves
+                "Implementation-Title": project.name,
+                "Implementation-Version": project.jar.archiveVersion,
+                "Implementation-Vendor": mod_authors,
+                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
         ])
     }
 }
 
 
 jar.finalizedBy('reobfJar')
-tasks.register("copyToMod") {
-    doLast {
-        def file = file("build/libs/${project.name}-${version}.jar")
-        def modFile = new File("C:\\Users\\Singlerr\\AppData\\Roaming\\.minecraft\\mods\\${file.name}")
-
-        if (modFile.exists())
-            modFile.delete()
-
-        def inputStream = new FileInputStream(file)
-
-        def outputStream = new FileOutputStream(modFile)
-
-        int len
-        byte[] buf = new byte[4096]
-
-        while ((len = inputStream.read(buf)) != -1)
-            outputStream.write(buf, 0, len)
-
-        inputStream.close()
-        outputStream.close()
-
-        println "Successfully copied from ${file.path} to ${modFile.path}"
-    }
-}
-
 
 tasks.withType(JavaCompile).configureEach {
     options.encoding = 'UTF-8' // Use the UTF-8 charset for Java compilation
-}
-
-githubRelease {
-    token System.getenv("githubToken").toString()
-    owner "Singlerr"
-    repo "ChiselOptifineBridge"
-    tagName version.toString()
-    targetCommitish "master"
-    releaseName "v${version.toString()}"
-    generateReleaseNotes true
-    body "Added FlatColoredBlocks mod compatibility"
-    releaseAssets jar.destinationDir.listFiles()
-    overwrite true
-    allowUploadToExisting.set true
 }

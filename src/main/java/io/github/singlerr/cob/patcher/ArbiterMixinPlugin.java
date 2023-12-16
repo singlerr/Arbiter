@@ -36,31 +36,42 @@ public class ArbiterMixinPlugin implements IMixinConfigPlugin {
 
     @Override
     public void preApply(String targetClassName, ClassNode targetClass, String mixinClassName, IMixinInfo mixinInfo) {
+        if (!targetClassName.equals("net.minecraft.client.renderer.BlockModelRenderer"))
+            return;
+
+        String parentFunc = "renderModel";
+        String parentDesc = "(Lnet/minecraft/world/IBlockDisplayReader;Lnet/minecraft/client/renderer/model/IBakedModel;Lnet/minecraft/block/BlockState;Lnet/minecraft/util/math/BlockPos;Lcom/mojang/blaze3d/matrix/MatrixStack;Lcom/mojang/blaze3d/vertex/IVertexBuilder;ZLjava/util/Random;JILnet/minecraftforge/client/model/data/IModelData;)Z";
+
         String targetFunc = "pushEntity";
-        String targetDesc = "(Lnet/minecraft/block/state/IBlockState;Lnet/minecraft/util/math/BlockPos;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/client/renderer/BufferBuilder;)V";
+        String targetDesc = "(Lnet/minecraft/block/BlockState;Lcom/mojang/blaze3d/vertex/IVertexBuilder;)V";
 
         for (MethodNode methodNode : targetClass.methods) {
-            if (methodNode.name.equals(targetFunc) && methodNode.desc.equals(targetDesc)) {
+            if (methodNode.name.equals(parentFunc) && methodNode.desc.equals(parentDesc)) {
+
                 InsnList list = methodNode.instructions;
                 AbstractInsnNode targetPos = list.getFirst();
-                while (!(targetPos.getOpcode() == Opcodes.INVOKESTATIC && ((MethodInsnNode) targetPos).name.equals("getBlockAliasId") && ((MethodInsnNode) targetPos).desc.equals("(II)I"))) {
+                while (!(targetPos.getOpcode() == Opcodes.INVOKESTATIC && ((MethodInsnNode) targetPos).name.equals(targetFunc) && ((MethodInsnNode) targetPos).desc.equals(targetDesc))) {
                     targetPos = targetPos.getNext();
                 }
+                //    ALOAD 3
+                //    ALOAD 6
+                //    INVOKESTATIC net/optifine/shaders/SVertexBuilder.pushEntity (Lnet/minecraft/block/BlockState;Lcom/mojang/blaze3d/vertex/IVertexBuilder;)V
+                targetPos = targetPos.getPrevious().getPrevious(); //ALOAD 3
+                //pushEntity(BlockState state, IBlockDisplayReader world, BlockPos pos, IVertexBuilder builder)
+                ((VarInsnNode) targetPos).var = 3;
                 targetPos = targetPos.getNext();
+                ((VarInsnNode) targetPos).var = 1;
+
+                MethodInsnNode callNode = (MethodInsnNode) targetPos.getNext();
 
                 InsnList newList = new InsnList();
+                newList.add(new VarInsnNode(Opcodes.ALOAD, 4));
+                newList.add(new VarInsnNode(Opcodes.ALOAD, 6));
 
-                newList.add(new VarInsnNode(Opcodes.ILOAD, 5));
-                newList.add(new VarInsnNode(Opcodes.ALOAD, 0));
-                newList.add(new VarInsnNode(Opcodes.ALOAD, 2));
-                newList.add(new VarInsnNode(Opcodes.ALOAD, 1));
-                newList.add(new MethodInsnNode(Opcodes.INVOKESTATIC,
-                        "io/github/singlerr/cob/core/ChiselsAndBitsHandler",
-                        "mapBlockId",
-                        "(ILnet/minecraft/block/state/IBlockState;Lnet/minecraft/world/IBlockAccess;Lnet/minecraft/util/math/BlockPos;)I",
-                        false));
-                newList.add(new VarInsnNode(Opcodes.ISTORE, 5));
                 list.insert(targetPos, newList);
+
+                callNode.owner = "io/github/singlerr/cob/core/OptifineRedirect";
+                callNode.desc = "(Lnet/minecraft/block/BlockState;Lnet/minecraft/world/IBlockDisplayReader;Lnet/minecraft/util/math/BlockPos;Lcom/mojang/blaze3d/vertex/IVertexBuilder;)V";
             }
         }
     }
